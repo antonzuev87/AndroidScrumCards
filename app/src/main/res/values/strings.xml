@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Scrum Cards</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="questionText">What type of estimation do you want to use?</string>
+    <string name="fibonacciName">Fibonacci</string>
+    <string name="tshirtName">T-Shirt sizes</string>
+</resources>
