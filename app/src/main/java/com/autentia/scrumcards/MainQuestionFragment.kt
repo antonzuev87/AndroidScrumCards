@@ -3,8 +3,8 @@ package com.autentia.scrumcards
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.BundleCompat
-import android.support.v4.app.Fragment
+import androidx.core.app.BundleCompat
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,8 +73,6 @@ class MainQuestionFragment : Fragment() {
             // Commit the transaction
             transaction?.commit()
         }
-
-
         return view
 
     }

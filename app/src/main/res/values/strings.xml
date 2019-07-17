@@ -7,4 +7,6 @@
     <string name="questionText">What type of estimation do you want to use?</string>
     <string name="fibonacciName">Fibonacci</string>
     <string name="tshirtName">T-Shirt sizes</string>
+    <string name="restButtonText">Rest</string>
+    <string name="continueButtonText">Continue</string>
 </resources>

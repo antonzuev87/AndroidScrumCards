@@ -1,7 +1,7 @@
 package com.autentia.scrumcards
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 
 class CardViewFragmentViewModel : ViewModel() {
     // Create a LiveData with a String

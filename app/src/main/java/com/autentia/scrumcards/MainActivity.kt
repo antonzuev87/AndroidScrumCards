@@ -1,18 +1,16 @@
 package com.autentia.scrumcards
 
-import android.arch.lifecycle.ViewModelProviders
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.app.FragmentActivity
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import com.autentia.scrumcards.CardsModel.CardsContent
-
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), CardListFragment.OnListFragmentInteractionListener, MainQuestionFragment.OnFragmentInteractionListener{
+class MainActivity : AppCompatActivity(), CardListFragment.OnListFragmentInteractionListener,
+    MainQuestionFragment.OnFragmentInteractionListener {
 
 
     override fun onFragmentInteraction(uri: Uri) {
@@ -21,7 +19,6 @@ class MainActivity : AppCompatActivity(), CardListFragment.OnListFragmentInterac
 
 
     override fun onListFragmentInteraction(item: CardsContent.CardItem?) {
-        print("Click has happened")
         val viewModel = ViewModelProviders.of(this).get(CardViewFragmentViewModel::class.java)
         viewModel.imageName.postValue(item?.imageName)
 

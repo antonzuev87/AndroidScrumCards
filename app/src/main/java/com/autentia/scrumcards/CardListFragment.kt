@@ -2,16 +2,21 @@ package com.autentia.scrumcards
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.GridLayout
+import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 
 import com.autentia.scrumcards.CardsModel.CardsContent
 import com.autentia.scrumcards.CardsModel.CardsContent.CardItem
+import kotlinx.android.synthetic.main.card_list_fragment.*
+import kotlinx.android.synthetic.main.card_list_fragment.view.*
 
 /**
  * A fragment representing a list of Items.
@@ -43,8 +48,8 @@ class CardListFragment : Fragment() {
         val view = inflater.inflate(R.layout.card_list_fragment, container, false)
 
         // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
+        if (view is ConstraintLayout) {
+            with(view.list) {
                 layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
@@ -52,6 +57,19 @@ class CardListFragment : Fragment() {
                 adapter = MyItemRecyclerViewAdapter(cards, listener)
             }
         }
+
+        if (view.list.layoutManager is GridLayoutManager) {
+            var gridLayoutManager = view.list.layoutManager as GridLayoutManager
+            gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    return when (view.list.adapter?.getItemViewType(position)) {
+                        MyItemRecyclerViewAdapter.footerView -> columnCount
+                        else -> 1
+                    }
+                }
+            }
+        }
+
         return view
     }
 

@@ -1,6 +1,6 @@
 package com.autentia.scrumcards
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +20,8 @@ import kotlinx.android.synthetic.main.card.view.*
 class MyItemRecyclerViewAdapter(
     private val mValues: List<CardItem>,
     private val mListener: OnListFragmentInteractionListener?
-) : RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
 
     private val mOnClickListener: View.OnClickListener
 
@@ -33,26 +34,52 @@ class MyItemRecyclerViewAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.card, parent, false)
-        return ViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        var view: View
+        var vh: RecyclerView.ViewHolder
+
+        if (viewType == footerView) {
+            view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.card_list_footer, parent, false)
+            vh = FooterViewHolder(view)
+
+        } else {
+            view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.card, parent, false)
+            vh = CardViewHolder(view)
+        }
+
+        return vh
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = mValues[position]
-        //holder.mIdView.text = item.id
-        holder.mContentView.text = item.imageName
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        with(holder.mView) {
-            tag = item
-            setOnClickListener(mOnClickListener)
+        if (holder is CardViewHolder) {
+            val item = mValues[position]
+            //holder.mIdView.text = item.id
+            holder.mContentView.text = item.imageName
+
+            with(holder.mView) {
+                tag = item
+                setOnClickListener(mOnClickListener)
+            }
+
+        } else if (holder is FooterViewHolder) {
+
         }
     }
 
-    override fun getItemCount(): Int = mValues.size
+    override fun getItemCount(): Int = mValues.size + 1
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+    override fun getItemViewType(position: Int): Int {
+        if (position == mValues.size) {
+            // This is where we'll add footer.
+            return footerView
+        }
+        return super.getItemViewType(position)
+    }
+
+    inner class CardViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
 
         //val mIdView: TextView = mView.item_number
         val mContentView: TextView = mView.cardName
@@ -61,4 +88,16 @@ class MyItemRecyclerViewAdapter(
             return super.toString() + " '" + mContentView.text + "'"
         }
     }
+
+    inner class FooterViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+
+        //val mIdView: TextView = mView.item_number
+
+    }
+
+    companion object {
+        const val footerView: Int = 1
+    }
+
+
 }

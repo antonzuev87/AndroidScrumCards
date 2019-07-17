@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             android:layout_width="wrap_content"
-                                             android:layout_height="wrap_content"
-                                             android:orientation="horizontal"
-                                             android:id="@+id/linearLayout"
-                                             android:padding="10dp"
-                                             android:clickable="false">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linearLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:clickable="false"
+    android:orientation="horizontal"
+    android:padding="10dp">
 
-    <android.support.v7.widget.CardView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:padding="15dp"
-            android:id="@+id/cardView"
-            app:cardCornerRadius="10dp"
-            android:clickable="false"
-            app:cardBackgroundColor="@color/cardBackground"
-            app:cardElevation="0dp">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:clickable="false"
+        android:padding="15dp"
+        app:cardBackgroundColor="@color/cardBackground"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-                android:text="TextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/cardName"
-                android:textAlignment="center"
-                android:fontFamily="@font/montserrat"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:padding="15dp"
-                android:textColor="@android:color/black"
-                android:background="#00000000"/>
-    </android.support.v7.widget.CardView>
-</android.support.constraint.ConstraintLayout>
+            android:id="@+id/cardName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/montserrat"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textColor="@android:color/black" />
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

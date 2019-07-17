@@ -1,22 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <android.support.v7.widget.RecyclerView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/list"
-            android:name="com.autentia.scrumcards.cardListFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:numColumns="auto_fit"
-            android:columnWidth="100dp"
-            app:layoutManager="GridLayoutManager"
-            tools:context=".CardListFragment"
-            tools:listitem="@layout/card"
-            android:background="@android:color/background_light"
-            android:clickable="false"
-            android:focusable="auto"
-            android:layout_margin="10dp">
-    </android.support.v7.widget.RecyclerView>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:name="com.autentia.scrumcards.cardListFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@android:color/background_light"
+        android:clickable="false"
+        android:columnWidth="100dp"
+        android:focusable="auto"
+        android:numColumns="auto_fit"
+        android:padding="10dp"
+        android:paddingTop="15dp"
+        app:layoutManager="GridLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".CardListFragment"
+        tools:listitem="@layout/card">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 
