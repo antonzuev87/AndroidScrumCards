@@ -1,23 +1,30 @@
 package com.autentia.scrumcards
 
+import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 
 
 import com.autentia.scrumcards.CardListFragment.OnListFragmentInteractionListener
+import com.autentia.scrumcards.CardsModel.CardsContent
 import com.autentia.scrumcards.CardsModel.CardsContent.CardItem
-
 import kotlinx.android.synthetic.main.card.view.*
+import kotlinx.android.synthetic.main.card_list_footer.view.*
+
+
 
 /**
  * [RecyclerView.Adapter] that can display a [CardItem] and makes a call to the
  * specified [OnListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
-class MyItemRecyclerViewAdapter(
+class CardListRecyclerViewAdapter(
     private val mValues: List<CardItem>,
     private val mListener: OnListFragmentInteractionListener?
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -90,9 +97,19 @@ class MyItemRecyclerViewAdapter(
     }
 
     inner class FooterViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+        val continueButton: Button = mView.continueButton
+        val restButton: Button = mView.restButton
 
-        //val mIdView: TextView = mView.item_number
-
+        init {
+            continueButton.setOnClickListener {
+                val continueButtonItem = CardsContent.continueButtonItem
+                mListener?.onListFragmentInteraction(continueButtonItem)
+            }
+            restButton.setOnClickListener {
+                val restButtonItem = CardsContent.restButtonItem
+                mListener?.onListFragmentInteraction(restButtonItem)
+            }
+        }
     }
 
     companion object {

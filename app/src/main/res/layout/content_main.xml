@@ -9,11 +9,10 @@
         tools:showIn="@layout/activity_main"
         tools:context=".MainActivity" android:background="@android:color/background_light">
     <fragment
-            android:layout_width="0dp"
-            android:layout_height="0dp" android:name="com.autentia.scrumcards.MainQuestionFragment"
-            android:id="@+id/fragment" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.45"/>
+        android:id="@+id/navHostFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/navigation"></fragment>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,19 +9,21 @@
     android:orientation="horizontal"
     android:padding="10dp">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:layout_margin="5dp"
         android:clickable="false"
         android:padding="15dp"
         app:cardBackgroundColor="@color/cardBackground"
         app:cardCornerRadius="10dp"
-        app:cardElevation="0dp"
+        app:cardElevation="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@android:color/black">
 
         <TextView
             android:id="@+id/cardName"
@@ -34,5 +36,5 @@
             android:text="TextView"
             android:textAlignment="center"
             android:textColor="@android:color/black" />
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

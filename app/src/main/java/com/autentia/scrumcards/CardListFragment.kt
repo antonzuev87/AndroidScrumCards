@@ -5,17 +5,12 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
-import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 
-import com.autentia.scrumcards.CardsModel.CardsContent
 import com.autentia.scrumcards.CardsModel.CardsContent.CardItem
-import kotlinx.android.synthetic.main.card_list_fragment.*
 import kotlinx.android.synthetic.main.card_list_fragment.view.*
 
 /**
@@ -28,11 +23,11 @@ class CardListFragment : Fragment() {
     // TODO: Customize parameters
     private var columnCount = 1
 
-    private var columnWidthDp = 140.0f
+    private var columnWidthDp = 155.0f
 
     private var listener: OnListFragmentInteractionListener? = null
 
-    lateinit var cards: ArrayList<CardItem>
+    private var cards: ArrayList<CardItem>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,23 +42,29 @@ class CardListFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.card_list_fragment, container, false)
 
-        // Set the adapter
-        if (view is ConstraintLayout) {
-            with(view.list) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
+        cards = this.arguments?.getParcelableArrayList("cards")
+
+        cards?.let {
+            // Set the adapter
+            if (view is ConstraintLayout) {
+                with(view.list) {
+                    layoutManager = when {
+                        columnCount <= 1 -> LinearLayoutManager(context)
+                        else -> GridLayoutManager(context, columnCount)
+                    }
+                    adapter = CardListRecyclerViewAdapter(it, listener)
+
                 }
-                adapter = MyItemRecyclerViewAdapter(cards, listener)
             }
         }
+
 
         if (view.list.layoutManager is GridLayoutManager) {
             var gridLayoutManager = view.list.layoutManager as GridLayoutManager
             gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
                     return when (view.list.adapter?.getItemViewType(position)) {
-                        MyItemRecyclerViewAdapter.footerView -> columnCount
+                        CardListRecyclerViewAdapter.footerView -> columnCount
                         else -> 1
                     }
                 }

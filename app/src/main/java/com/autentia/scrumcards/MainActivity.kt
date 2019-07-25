@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import com.autentia.scrumcards.CardsModel.CardsContent
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -21,17 +22,18 @@ class MainActivity : AppCompatActivity(), CardListFragment.OnListFragmentInterac
     override fun onListFragmentInteraction(item: CardsContent.CardItem?) {
         val viewModel = ViewModelProviders.of(this).get(CardViewFragmentViewModel::class.java)
         viewModel.imageName.postValue(item?.imageName)
+        findNavController(R.id.navHostFragment).navigate(R.id.action_cardListFragment_to_cardViewFragment)
 
-        val transaction = this.supportFragmentManager?.beginTransaction()?.apply {
-            // Replace whatever is in the fragment_container view with this fragment,
-            // and add the transaction to the back stack so the user can navigate back
-            setCustomAnimations(0, R.anim.right_to_left_out_animation, 0, R.anim.left_to_right_animation)
-            val cardViewFragment = CardViewFragment()
-            replace(R.id.fragment, cardViewFragment)
-            addToBackStack(null)
-        }
-        // Commit the transaction
-        transaction?.commit()
+//        val transaction = this.supportFragmentManager?.beginTransaction()?.apply {
+//            // Replace whatever is in the fragment_container view with this fragment,
+//            // and add the transaction to the back stack so the user can navigate back
+//            setCustomAnimations(0, R.anim.right_to_left_out_animation, 0, R.anim.left_to_right_animation)
+//            val cardViewFragment = CardViewFragment()
+//            replace(R.id.fragment, cardViewFragment)
+//            addToBackStack(null)
+//        }
+//        // Commit the transaction
+//        transaction?.commit()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

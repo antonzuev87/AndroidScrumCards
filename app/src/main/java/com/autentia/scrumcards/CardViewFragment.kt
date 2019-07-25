@@ -33,6 +33,8 @@ class CardViewFragment : Fragment() {
             val resourceName = when(it) {
                 "0,5" -> "card_half"
                 "∞" -> "card_infinity"
+                "card_rest" -> "card_rest"
+                "card_too_much" -> "card_too_much"
                 else -> "card_" + it?.toLowerCase()
             }
             val id = this.resources.getIdentifier(resourceName, "drawable", this.activity?.packageName)

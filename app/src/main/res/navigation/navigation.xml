@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/mainQuestionFragment">
+
+    <fragment
+        android:id="@+id/cardListFragment"
+        android:name="com.autentia.scrumcards.CardListFragment"
+        android:label="CardListFragment" >
+        <action
+            android:id="@+id/action_cardListFragment_to_cardViewFragment"
+            app:destination="@id/cardViewFragment"
+            app:exitAnim="@anim/right_to_left_out_animation"
+            app:popExitAnim="@anim/left_to_right_animation" />
+    </fragment>
+    <fragment
+        android:id="@+id/cardViewFragment"
+        android:name="com.autentia.scrumcards.CardViewFragment"
+        android:label="card_view_fragment"
+        tools:layout="@layout/card_view_fragment" />
+    <fragment
+        android:id="@+id/mainQuestionFragment"
+        android:name="com.autentia.scrumcards.MainQuestionFragment"
+        android:label="fragment_main_question"
+        tools:layout="@layout/fragment_main_question" >
+        <action
+            android:id="@+id/action_mainQuestionFragment_to_cardListFragment"
+            app:destination="@id/cardListFragment"
+            app:enterAnim="@anim/right_to_left_animation"
+            app:popEnterAnim="@anim/out_left_to_right_animation" />
+        <argument
+            android:name="cards"
+            app:argType="com.autentia.scrumcards.CardsModel.CardsContent$CardItem[]" />
+    </fragment>
+</navigation>

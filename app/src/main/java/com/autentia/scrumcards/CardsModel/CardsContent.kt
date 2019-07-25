@@ -1,5 +1,8 @@
 package com.autentia.scrumcards.CardsModel
 
+import android.os.Parcel
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.util.ArrayList
 
 /**
@@ -35,10 +38,14 @@ object CardsContent {
                                                 CardItem("7", imageName = "XXL"),
                                                 CardItem("8", imageName = "∞"))
 
+    val continueButtonItem = CardItem("1", imageName = "card_too_much")
+    val restButtonItem = CardItem("1", imageName = "card_rest")
+
     /**
      * A dummy item representing a piece of content.
      */
-    data class CardItem(val id: String, val bottomText: String = "", val imageName: String) {
+    @Parcelize
+    data class CardItem(val id: String, val bottomText: String = "", val imageName: String): Parcelable {
         override fun toString(): String = bottomText
     }
 }
