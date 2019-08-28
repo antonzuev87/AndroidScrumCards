@@ -3,11 +3,10 @@ package com.autentia.scrumcards
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
-import com.autentia.scrumcards.CardsModel.CardsContent
+import com.autentia.scrumcards.cardsmodel.CardsUtil
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), CardListFragment.OnListFragmentInteractionListener,
@@ -19,9 +18,10 @@ class MainActivity : AppCompatActivity(), CardListFragment.OnListFragmentInterac
     }
 
 
-    override fun onListFragmentInteraction(item: CardsContent.CardItem?) {
+    override fun onListFragmentInteraction(item: CardsUtil.CardItem?, itemList: ArrayList<CardsUtil.CardItem>?) {
         val viewModel = ViewModelProviders.of(this).get(CardViewFragmentViewModel::class.java)
-        viewModel.imageName.postValue(item?.imageName)
+        viewModel.cardItem.postValue(item)
+        viewModel.itemList.postValue(itemList)
         findNavController(R.id.navHostFragment).navigate(R.id.action_cardListFragment_to_cardViewFragment)
 
 //        val transaction = this.supportFragmentManager?.beginTransaction()?.apply {
@@ -48,13 +48,13 @@ class MainActivity : AppCompatActivity(), CardListFragment.OnListFragmentInterac
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        return when (item.itemId) {
+//            R.id.action_settings -> true
+//            else -> super.onOptionsItemSelected(item)
+//        }
+//    }
 }

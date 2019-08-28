@@ -32,6 +32,6 @@
             app:popEnterAnim="@anim/out_left_to_right_animation" />
         <argument
             android:name="cards"
-            app:argType="com.autentia.scrumcards.CardsModel.CardsContent$CardItem[]" />
+            app:argType="com.autentia.scrumcards.cardsmodel.CardsUtil$CardItem[]" />
     </fragment>
 </navigation>

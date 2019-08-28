@@ -3,13 +3,12 @@ package com.autentia.scrumcards
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import androidx.core.app.BundleCompat
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
-import com.autentia.scrumcards.CardsModel.CardsContent
+import com.autentia.scrumcards.cardsmodel.CardsUtil
 import kotlinx.android.synthetic.main.fragment_main_question.view.*
 
 
@@ -49,15 +48,14 @@ class MainQuestionFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_main_question, container, false)
         view.fibonacciButton.setOnClickListener {
             var bundle = Bundle()
-            bundle.putParcelableArrayList("cards", CardsContent.fibonacciItems)
+            bundle.putParcelableArrayList("cards", CardsUtil.fibonacciItems)
             it.findNavController().navigate(R.id.action_mainQuestionFragment_to_cardListFragment, bundle)
-
 //            val transaction = this.activity?.supportFragmentManager?.beginTransaction()?.apply {
 //                // Replace whatever is in the fragment_container view with this fragment,
 //                // and add the transaction to the back stack so the user can navigate back
 //                setCustomAnimations(R.anim.right_to_left_animation, R.anim.left_to_right_animation, 0, R.anim.left_to_right_animation)
 //                val fibonacciListFragment = CardListFragment()
-//                fibonacciListFragment.cards = CardsContent.fibonacciItems
+//                fibonacciListFragment.cards = CardsUtil.fibonacciItems
 //                replace(R.id.fragment, fibonacciListFragment)
 //                addToBackStack(null)
 //            }
@@ -67,14 +65,14 @@ class MainQuestionFragment : Fragment() {
 
         view.tShirtButtonSizes.setOnClickListener {
             var bundle = Bundle()
-            bundle.putParcelableArrayList("cards", CardsContent.TShirtSizesItems)
+            bundle.putParcelableArrayList("cards", CardsUtil.TShirtSizesItems)
             it.findNavController().navigate(R.id.action_mainQuestionFragment_to_cardListFragment, bundle)
 //            val transaction = this.activity?.supportFragmentManager?.beginTransaction()?.apply {
 //                // Replace whatever is in the fragment_container view with this fragment,
 //                // and add the transaction to the back stack so the user can navigate back
 //                setCustomAnimations(R.anim.right_to_left_animation, R.anim.left_to_right_animation, 0, R.anim.left_to_right_animation)
 //                val fibonacciListFragment = CardListFragment()
-//                fibonacciListFragment.cards = CardsContent.TShirtSizesItems
+//                fibonacciListFragment.cards = CardsUtil.TShirtSizesItems
 //                replace(R.id.fragment, fibonacciListFragment)
 //                addToBackStack(null)
 //            }
@@ -82,7 +80,6 @@ class MainQuestionFragment : Fragment() {
 //            transaction?.commit()
         }
         return view
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event

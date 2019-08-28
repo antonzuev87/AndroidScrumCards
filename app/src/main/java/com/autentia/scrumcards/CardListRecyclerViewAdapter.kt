@@ -1,19 +1,16 @@
 package com.autentia.scrumcards
 
-import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
 
 
 import com.autentia.scrumcards.CardListFragment.OnListFragmentInteractionListener
-import com.autentia.scrumcards.CardsModel.CardsContent
-import com.autentia.scrumcards.CardsModel.CardsContent.CardItem
+import com.autentia.scrumcards.cardsmodel.CardsUtil
+import com.autentia.scrumcards.cardsmodel.CardsUtil.CardItem
 import kotlinx.android.synthetic.main.card.view.*
 import kotlinx.android.synthetic.main.card_list_footer.view.*
 
@@ -25,7 +22,7 @@ import kotlinx.android.synthetic.main.card_list_footer.view.*
  * TODO: Replace the implementation with code for your data type.
  */
 class CardListRecyclerViewAdapter(
-    private val mValues: List<CardItem>,
+    private val mValues: ArrayList<CardItem>,
     private val mListener: OnListFragmentInteractionListener?
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -37,7 +34,7 @@ class CardListRecyclerViewAdapter(
             val item = v.tag as CardItem
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
-            mListener?.onListFragmentInteraction(item)
+            mListener?.onListFragmentInteraction(item, mValues)
         }
     }
 
@@ -96,17 +93,17 @@ class CardListRecyclerViewAdapter(
         }
     }
 
-    inner class FooterViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val continueButton: Button = mView.continueButton
-        val restButton: Button = mView.restButton
+    inner class FooterViewHolder(private val mView: View) : RecyclerView.ViewHolder(mView) {
+        private val continueButton: Button = this.mView.continueButton
+        private val restButton: Button = this.mView.restButton
 
         init {
             continueButton.setOnClickListener {
-                val continueButtonItem = CardsContent.continueButtonItem
+                val continueButtonItem = CardsUtil.continueButtonItem
                 mListener?.onListFragmentInteraction(continueButtonItem)
             }
             restButton.setOnClickListener {
-                val restButtonItem = CardsContent.restButtonItem
+                val restButtonItem = CardsUtil.restButtonItem
                 mListener?.onListFragmentInteraction(restButtonItem)
             }
         }

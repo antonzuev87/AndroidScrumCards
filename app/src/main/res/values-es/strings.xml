@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Planning poker</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="continueButtonText">Continuar</string>
+    <string name="fibonacciName">Fibonacci</string>
+    <string name="questionText">¿Qué estimación quieres usar?</string>
+    <string name="restButtonText">Descansar</string>
+    <string name="tshirtName">Tallas de camiseta</string>
+</resources>

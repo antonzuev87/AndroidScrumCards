@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 
-import com.autentia.scrumcards.CardsModel.CardsContent.CardItem
+import com.autentia.scrumcards.cardsmodel.CardsUtil.CardItem
 import kotlinx.android.synthetic.main.card_list_fragment.view.*
 
 /**
@@ -41,7 +41,6 @@ class CardListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.card_list_fragment, container, false)
-
         cards = this.arguments?.getParcelableArrayList("cards")
 
         cards?.let {
@@ -101,7 +100,7 @@ class CardListFragment : Fragment() {
      */
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: CardItem?)
+        fun onListFragmentInteraction(item: CardItem?, itemList: ArrayList<CardItem>? = null)
     }
 
     companion object {

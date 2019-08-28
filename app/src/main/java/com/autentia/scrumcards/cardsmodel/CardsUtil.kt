@@ -1,6 +1,5 @@
-package com.autentia.scrumcards.CardsModel
+package com.autentia.scrumcards.cardsmodel
 
-import android.os.Parcel
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import java.util.ArrayList
@@ -9,9 +8,8 @@ import java.util.ArrayList
  * Helper class for providing sample content for user interfaces created by
  * Android template wizards.
  *
- * TODO: Replace all uses of this class before publishing your app.
  */
-object CardsContent {
+object CardsUtil {
 
     /**
      * An array of sample (dummy) items.
@@ -41,11 +39,53 @@ object CardsContent {
     val continueButtonItem = CardItem("1", imageName = "card_too_much")
     val restButtonItem = CardItem("1", imageName = "card_rest")
 
+    fun getCardImageIdentifier(imageName: String): String {
+        return when (imageName) {
+            "0,5" -> "card_half"
+            "∞" -> "card_infinity"
+            "card_rest" -> "card_rest"
+            "card_too_much" -> "card_too_much"
+            else -> "card_" + imageName?.toLowerCase()
+        }
+    }
+
+    fun getNextCardItem(cardItem: CardItem?, cardList: ArrayList<CardItem>?): CardItem? {
+        var indexOfCardItem = cardList?.indexOf(cardItem)
+        return if (indexOfCardItem!=-1 && indexOfCardItem!=null && cardList!=null
+            && indexOfCardItem + 1 < cardList.size) {
+            indexOfCardItem += 1
+            cardList[indexOfCardItem]
+        } else null
+    }
+
+    fun getPreviousCardItem(cardItem: CardItem?, cardList: ArrayList<CardItem>?): CardItem? {
+        var indexOfCardItem = cardList?.indexOf(cardItem)
+        return if (indexOfCardItem!=-1 && indexOfCardItem!= null && cardList!=null
+            && indexOfCardItem > 0) {
+            indexOfCardItem -= 1
+            cardList[indexOfCardItem]
+        } else null
+    }
+
+
+    fun getNextCardItemImageName(cardItem: CardItem?, cardList: ArrayList<CardItem>?): String? {
+        var nextCardItem = getNextCardItem(cardItem,cardList)
+        return if(nextCardItem != null) {
+            getCardImageIdentifier(nextCardItem.imageName)
+        } else null
+    }
+
+    fun getPreviousCardItemImageName(cardItem: CardItem?, cardList: ArrayList<CardItem>?): String? {
+        var nextCardItem = getPreviousCardItem(cardItem,cardList)
+        return if(nextCardItem != null) {
+            getCardImageIdentifier(nextCardItem.imageName)
+        } else null
+    }
+
     /**
-     * A dummy item representing a piece of content.
+     *  Model class
      */
-    @Parcelize
-    data class CardItem(val id: String, val bottomText: String = "", val imageName: String): Parcelable {
+    @Parcelize data class CardItem(val id: String, val bottomText: String = "", val imageName: String): Parcelable {
         override fun toString(): String = bottomText
     }
 }
