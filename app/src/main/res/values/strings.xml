@@ -8,4 +8,8 @@
     <string name="tshirtName">T-Shirt sizes</string>
     <string name="restButtonText">Rest</string>
     <string name="continueButtonText">Continue</string>
+    <string name="restCardText">You need to rest</string>
+    <string name="continueCardText">Too much time is being devoted to a point or topic</string>
+    <string name="infinityCardText">The PBI is too big and it needs to be divided</string>
+    <string name="zeroCardText">The PBI is already done or doesn\'t require any affort</string>
 </resources>

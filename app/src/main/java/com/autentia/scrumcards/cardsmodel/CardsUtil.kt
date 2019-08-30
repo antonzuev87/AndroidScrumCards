@@ -14,7 +14,7 @@ object CardsUtil {
     /**
      * An array of sample (dummy) items.
      */
-    val fibonacciItems: ArrayList<CardItem> = arrayListOf(CardItem("1", imageName = "0"),
+    val fibonacciItems: ArrayList<CardItem> = arrayListOf(CardItem("1", imageName = "0", bottomText = "zeroCardText"),
                                         CardItem("2", imageName = "0,5"),
                                         CardItem("3", imageName = "1"),
                                         CardItem("4", imageName = "2"),
@@ -25,7 +25,7 @@ object CardsUtil {
                                         CardItem("9", imageName = "20"),
                                         CardItem("10", imageName = "40"),
                                         CardItem("11", imageName = "100"),
-                                        CardItem("12", imageName = "∞"))
+                                        CardItem("12", imageName = "∞", bottomText = "infinityCardText"))
 
     val TShirtSizesItems: ArrayList<CardItem> = arrayListOf(CardItem("1", imageName = "XXS"),
                                                 CardItem("2", imageName = "XS"),
@@ -34,17 +34,17 @@ object CardsUtil {
                                                 CardItem("5", imageName = "L"),
                                                 CardItem("6", imageName = "XL"),
                                                 CardItem("7", imageName = "XXL"),
-                                                CardItem("8", imageName = "∞"))
+                                                CardItem("8", imageName = "∞", bottomText = "infinityCardText"))
 
-    val continueButtonItem = CardItem("1", imageName = "card_too_much")
-    val restButtonItem = CardItem("1", imageName = "card_rest")
+    val continueButtonItem = CardItem("1", imageName = "card_too_much", bottomText = "continueCardText")
+    val restButtonItem = CardItem("1", imageName = "card_rest", bottomText = "restCardText")
 
     fun getCardImageIdentifier(imageName: String): String {
         return when (imageName) {
             "0,5" -> "card_half"
-            "∞" -> "card_infinity"
-            "card_rest" -> "card_rest"
-            "card_too_much" -> "card_too_much"
+            "∞" -> "ic_infinitycard"
+            "card_rest" -> "ic_restcard"
+            "card_too_much" -> "ic_too_big"
             else -> "card_" + imageName?.toLowerCase()
         }
     }
@@ -85,7 +85,6 @@ object CardsUtil {
     /**
      *  Model class
      */
-    @Parcelize data class CardItem(val id: String, val bottomText: String = "", val imageName: String): Parcelable {
-        override fun toString(): String = bottomText
-    }
+    @Parcelize data class CardItem(val id: String, val bottomText: String? = null, val imageName: String): Parcelable
+
 }

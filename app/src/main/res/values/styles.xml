@@ -16,6 +16,13 @@
     <style name="BlueButtonStyle">
         <item name="android:background">@drawable/button_rounded_background</item>
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+    </style>
+    <style name="TitleBarTextAppearance" parent="android:TextAppearance">
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
 </resources>

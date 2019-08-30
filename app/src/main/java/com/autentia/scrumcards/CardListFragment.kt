@@ -22,7 +22,7 @@ class CardListFragment : Fragment() {
 
     // TODO: Customize parameters
     private var columnCount = 1
-    private var columnWidthDp = 155.0f
+    private var columnWidthDp = 150.0f
     private var listener: OnListFragmentInteractionListener? = null
     private var cards: ArrayList<CardItem>? = null
 

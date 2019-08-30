@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.card_view_fragment.*
 import android.content.Context
-import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -50,7 +49,7 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
         // GestureDetector.OnGestureListener
         super.onViewCreated(view, savedInstanceState)
         //val mDetector = GestureDetectorCompat(activity, MyGestureDetector(activity!!, imageView))
-        imageView.setOnTouchListener(MyTouchListener(activity!!, imageView, this))
+        imageView.setOnTouchListener(MyTouchListener(activity!!, innerFrame, this))
         frameLayout
     }
 
@@ -65,6 +64,17 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
                 this.activity?.packageName
             )
             imageViewAnimatedChange(context!!, imageView, resourceId)
+            if (it.bottomText!= null) {
+                bottomText.text = getString(
+                    this.resources.getIdentifier(
+                        it.bottomText,
+                        "string",
+                        this.activity?.packageName
+                    )
+                )
+            } else {
+                bottomText.text = null
+            }
         })
     }
 
@@ -134,7 +144,7 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
             )
             imageView.setImageResource(resourceId)
             imageView.setBackgroundResource(R.drawable.card_view_image_view_background)
-            imageView.elevation = 10.0f
+            imageView.elevation = 5.0f
         }
         imageView.layoutParams = FrameLayout.LayoutParams(width, height, gravity)
         return imageView
@@ -142,7 +152,7 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
 }
 
 
-class MyTouchListener(var context: Context, var imageView: ImageView, var gestureListener: GestureReceiverInterface) : View.OnTouchListener {
+class MyTouchListener(var context: Context, var frameLayout: ViewGroup, var gestureListener: GestureReceiverInterface) : View.OnTouchListener {
 
     var mLastTouchX: Float = 0.0f
     var imageViewInitialX: Float = 0.0f
@@ -159,12 +169,12 @@ class MyTouchListener(var context: Context, var imageView: ImageView, var gestur
                     // Remember where we started (for dragging)
                     gestureListener.onActionDown()
                     mLastTouchX = event.rawX
-                    imageViewInitialX = imageView.x
+                    imageViewInitialX = frameLayout.x
                 }
                 MotionEvent.ACTION_MOVE -> {
                     mPosX += event.rawX - mLastTouchX
-                    imageView.x = imageView.x + (event.rawX - mLastTouchX)
-                    val distance = imageView.x - imageViewInitialX
+                    frameLayout.x = frameLayout.x + (event.rawX - mLastTouchX)
+                    val distance = frameLayout.x - imageViewInitialX
                     when {
                         distance > slideDistance -> gestureListener.onActionMoveMuchLeft()
                         distance < -slideDistance -> gestureListener.onActionMoveMuchRight()
@@ -186,8 +196,8 @@ class MyTouchListener(var context: Context, var imageView: ImageView, var gestur
                     mLastTouchX = event.rawX
                 }
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                    val distance = imageView.x - imageViewInitialX
-                    imageView.x = imageViewInitialX
+                    val distance = frameLayout.x - imageViewInitialX
+                    frameLayout.x = imageViewInitialX
                     when {
                         distance > changeDistance -> gestureListener.onDragFarRight()
                         distance < -changeDistance -> gestureListener.onDragFarLeft()
@@ -201,51 +211,5 @@ class MyTouchListener(var context: Context, var imageView: ImageView, var gestur
             return true
         }
         return false
-    }
-}
-
-
-
-class MyGestureDetector(var context: Context, var imageView: ImageView) : GestureDetector.SimpleOnGestureListener() {
-
-    var coordinateX = imageView.x
-
-    override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
-        if (e2!=null && e1!=null) {
-            imageView.x = (e2.x - e1.x) + imageView.x
-            Log.d("TRANSLATION", "DISTANCE X ${e2.rawX}")
-            return true
-        }
-        return false
-    }
-
-    override fun onSingleTapUp(e: MotionEvent?): Boolean {
-        if (e!=null) {
-            imageView.x = coordinateX
-            return true
-        }
-        return false
-    }
-//    override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
-//        try {
-//            if (Math.abs(e1.y - e2.y) > SWIPE_MAX_OFF_PATH)
-//                return false
-//            if (e1.x - e2.x > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-//                imageView.translationX = e2.x
-//                Toast.makeText(this.context, "Left Swipe", Toast.LENGTH_SHORT).show()
-//            } else if (e2.x - e1.x > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-//                imageView.translationX = e1.x
-//                Toast.makeText(this.context, "Right Swipe", Toast.LENGTH_SHORT).show()
-//            }
-//        } catch (e: Exception) {
-//            // nothing
-//        }
-//
-//        return false
-//    }
-
-    override fun onDown(e: MotionEvent?): Boolean {
-        //coordinateX = imageView.x
-        return true
     }
 }
