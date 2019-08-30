@@ -68,8 +68,6 @@ class CardListRecyclerViewAdapter(
                 setOnClickListener(mOnClickListener)
             }
 
-        } else if (holder is FooterViewHolder) {
-
         }
     }
 

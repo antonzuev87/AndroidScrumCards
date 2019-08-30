@@ -45,7 +45,7 @@ object CardsUtil {
             "∞" -> "ic_infinitycard"
             "card_rest" -> "ic_restcard"
             "card_too_much" -> "ic_too_big"
-            else -> "card_" + imageName?.toLowerCase()
+            else -> "card_$imageName"
         }
     }
 

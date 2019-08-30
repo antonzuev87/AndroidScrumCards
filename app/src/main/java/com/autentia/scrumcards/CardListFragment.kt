@@ -22,7 +22,7 @@ class CardListFragment : Fragment() {
 
     // TODO: Customize parameters
     private var columnCount = 1
-    private var columnWidthDp = 150.0f
+    private var columnWidthDp = 115.0f
     private var listener: OnListFragmentInteractionListener? = null
     private var cards: ArrayList<CardItem>? = null
 
@@ -103,7 +103,7 @@ class CardListFragment : Fragment() {
     companion object {
 
         // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
+        private const val ARG_COLUMN_COUNT = "column-count"
 
         // TODO: Customize parameter initialization
         @JvmStatic

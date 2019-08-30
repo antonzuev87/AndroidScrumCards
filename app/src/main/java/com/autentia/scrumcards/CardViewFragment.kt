@@ -79,19 +79,19 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
     }
 
     fun imageViewAnimatedChange(c: Context, v: ImageView, resourceId: Int) {
-        val anim_out = AnimationUtils.loadAnimation(c, android.R.anim.fade_out)
-        anim_out.duration = 200
-        val anim_in = AnimationUtils.loadAnimation(c, android.R.anim.fade_in)
-        anim_in.duration = 100
-        anim_out.setAnimationListener(object : AnimationListener {
+        val animOut = AnimationUtils.loadAnimation(c, android.R.anim.fade_out)
+        animOut.duration = 200
+        val animIn = AnimationUtils.loadAnimation(c, android.R.anim.fade_in)
+        animIn.duration = 100
+        animOut.setAnimationListener(object : AnimationListener {
             override fun onAnimationRepeat(animation: Animation?) {}
             override fun onAnimationStart(animation: Animation?) {}
             override fun onAnimationEnd(animation: Animation) {
                 imageView.setImageResource(resourceId)
-                v.startAnimation(anim_in)
+                v.startAnimation(animIn)
             }
         })
-        v.startAnimation(anim_out)
+        v.startAnimation(animOut)
     }
 
     override fun onActionDown() {
