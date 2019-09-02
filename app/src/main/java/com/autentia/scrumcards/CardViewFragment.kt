@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.card_view_fragment.*
 import android.content.Context
+import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -19,8 +20,8 @@ import android.view.animation.AnimationUtils
 interface GestureReceiverInterface {
     fun onBeforeAction()
     fun onActionDown()
-    fun onActionMoveMuchLeft()
-    fun onActionMoveMuchRight()
+    fun onActionMoveMuchLeft(distance: Float)
+    fun onActionMoveMuchRight(distance: Float)
     fun onDragFarLeft()
     fun onDragFarRight()
     fun onActionUp()
@@ -78,7 +79,7 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
         })
     }
 
-    fun imageViewAnimatedChange(c: Context, v: ImageView, resourceId: Int) {
+    private fun imageViewAnimatedChange(c: Context, v: ImageView, resourceId: Int) {
         val animOut = AnimationUtils.loadAnimation(c, android.R.anim.fade_out)
         animOut.duration = 200
         val animIn = AnimationUtils.loadAnimation(c, android.R.anim.fade_in)
@@ -107,22 +108,24 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
     }
 
     override fun onDragFarRight() {
-        var previousCardItem = CardsUtil.getPreviousCardItem(viewModel.cardItem.value, viewModel.itemList.value)
+        val previousCardItem = CardsUtil.getPreviousCardItem(viewModel.cardItem.value, viewModel.itemList.value)
         if(previousCardItem!=null) {
             viewModel.cardItem.postValue(previousCardItem)
         }
     }
 
-    override fun onActionMoveMuchLeft() {
+    override fun onActionMoveMuchLeft(distance: Float) {
         if (leftImageView?.parent==null) {
             frameLayout.addView(leftImageView)
         }
+        leftImageView?.let { it.x = frameLayout.x - imageView.width*0.7f + distance}
     }
 
-    override fun onActionMoveMuchRight() {
+    override fun onActionMoveMuchRight(distance: Float) {
         if(rightImageView?.parent==null) {
             frameLayout.addView(rightImageView)
         }
+        rightImageView?.let { it.x = frameLayout.x + frameLayout.width + imageView.width*0.25f + distance}
     }
 
     override fun onActionUp() {
@@ -135,7 +138,7 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
     }
 
     private fun createImageView(gravity: Int, imageName: String?, width: Int, height: Int): ImageView {
-        var imageView = ImageView(context)
+        val imageView = ImageView(context)
         if(imageName!= null) {
             val resourceId = context!!.resources.getIdentifier(
                 imageName,
@@ -154,14 +157,14 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
 
 class MyTouchListener(var context: Context, var frameLayout: ViewGroup, var gestureListener: GestureReceiverInterface) : View.OnTouchListener {
 
-    var mLastTouchX: Float = 0.0f
-    var imageViewInitialX: Float = 0.0f
-    var mPosX: Float = 0.0f
+    private var mLastTouchX: Float = 0.0f
+    private var imageViewInitialX: Float = 0.0f
+    private var mPosX: Float = 0.0f
 
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         gestureListener.onBeforeAction()
-        val slideDistance = 100
-        val changeDistance = 200
+        val slideDistance = frameLayout.width/4
+        val changeDistance = frameLayout.width/2
 
         if (event!=null) {
             when (event.action) {
@@ -175,9 +178,10 @@ class MyTouchListener(var context: Context, var frameLayout: ViewGroup, var gest
                     mPosX += event.rawX - mLastTouchX
                     frameLayout.x = frameLayout.x + (event.rawX - mLastTouchX)
                     val distance = frameLayout.x - imageViewInitialX
+                    Log.i("Distance","Distance $distance")
                     when {
-                        distance > slideDistance -> gestureListener.onActionMoveMuchLeft()
-                        distance < -slideDistance -> gestureListener.onActionMoveMuchRight()
+                        distance > slideDistance -> gestureListener.onActionMoveMuchLeft(distance)
+                        distance < -slideDistance -> gestureListener.onActionMoveMuchRight(distance)
                     }
 
                     //                    if ((event.rawX - imageViewInitialX) > slideDistance) {
