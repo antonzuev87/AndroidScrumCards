@@ -47,7 +47,7 @@ class MainQuestionFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_main_question, container, false)
         view.fibonacciButton.setOnClickListener {
-            var bundle = Bundle()
+            val bundle = Bundle()
             bundle.putParcelableArrayList("cards", CardsUtil.fibonacciItems)
             it.findNavController().navigate(R.id.action_mainQuestionFragment_to_cardListFragment, bundle)
 //            val transaction = this.activity?.supportFragmentManager?.beginTransaction()?.apply {
@@ -64,7 +64,7 @@ class MainQuestionFragment : Fragment() {
         }
 
         view.tShirtButtonSizes.setOnClickListener {
-            var bundle = Bundle()
+            val bundle = Bundle()
             bundle.putParcelableArrayList("cards", CardsUtil.TShirtSizesItems)
             it.findNavController().navigate(R.id.action_mainQuestionFragment_to_cardListFragment, bundle)
 //            val transaction = this.activity?.supportFragmentManager?.beginTransaction()?.apply {
@@ -87,7 +87,7 @@ class MainQuestionFragment : Fragment() {
         if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+            throw RuntimeException("$context must implement OnFragmentInteractionListener")
         }
     }
 

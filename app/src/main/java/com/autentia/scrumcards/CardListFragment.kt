@@ -54,9 +54,8 @@ class CardListFragment : Fragment() {
             }
         }
 
-
         if (view.list.layoutManager is GridLayoutManager) {
-            var gridLayoutManager = view.list.layoutManager as GridLayoutManager
+            val gridLayoutManager = view.list.layoutManager as GridLayoutManager
             gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
                     return when (view.list.adapter?.getItemViewType(position)) {
@@ -66,7 +65,6 @@ class CardListFragment : Fragment() {
                 }
             }
         }
-
         return view
     }
 
@@ -75,7 +73,7 @@ class CardListFragment : Fragment() {
         if (context is OnListFragmentInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener")
+            throw RuntimeException("$context must implement OnListFragmentInteractionListener")
         }
     }
 

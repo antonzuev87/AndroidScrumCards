@@ -39,8 +39,8 @@ class CardListRecyclerViewAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        var view: View
-        var vh: RecyclerView.ViewHolder
+        val view: View
+        val vh: RecyclerView.ViewHolder
 
         if (viewType == footerView) {
             view = LayoutInflater.from(parent.context)

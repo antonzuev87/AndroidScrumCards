@@ -69,14 +69,14 @@ object CardsUtil {
 
 
     fun getNextCardItemImageName(cardItem: CardItem?, cardList: ArrayList<CardItem>?): String? {
-        var nextCardItem = getNextCardItem(cardItem,cardList)
+        val nextCardItem = getNextCardItem(cardItem,cardList)
         return if(nextCardItem != null) {
             getCardImageIdentifier(nextCardItem.imageName)
         } else null
     }
 
     fun getPreviousCardItemImageName(cardItem: CardItem?, cardList: ArrayList<CardItem>?): String? {
-        var nextCardItem = getPreviousCardItem(cardItem,cardList)
+        val nextCardItem = getPreviousCardItem(cardItem,cardList)
         return if(nextCardItem != null) {
             getCardImageIdentifier(nextCardItem.imageName)
         } else null
