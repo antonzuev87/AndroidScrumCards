@@ -45,26 +45,23 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // Instantiate the gesture detector with the
-        // application context and an implementation of
-        // GestureDetector.OnGestureListener
         super.onViewCreated(view, savedInstanceState)
-        //val mDetector = GestureDetectorCompat(activity, MyGestureDetector(activity!!, imageView))
-        imageView.setOnTouchListener(MyTouchListener(activity!!, innerFrame, this))
+        imageView.setOnTouchListener(MyTouchListener(innerFrame, this))
         frameLayout
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel =
-            ViewModelProviders.of(this.activity!!).get(CardViewFragmentViewModel::class.java)
+        viewModel = activity?.run { ViewModelProviders.of(this).get(CardViewFragmentViewModel::class.java) } ?: throw Exception("Invalid activity")
         viewModel.cardItem.observe(this, Observer<CardsUtil.CardItem> {
             val resourceId = this.resources.getIdentifier(
                 CardsUtil.getCardImageIdentifier(it.imageName),
                 "drawable",
                 this.activity?.packageName
             )
-            imageViewAnimatedChange(context!!, imageView, resourceId)
+            context?.run {
+                imageViewAnimatedChange(this, imageView, resourceId)
+            }
             if (it.bottomText!= null) {
                 bottomText.text = getString(
                     this.resources.getIdentifier(
@@ -139,13 +136,14 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
     private fun createImageView(gravity: Int, imageName: String?, width: Int, height: Int): ImageView {
         val imageView = ImageView(context)
         if(imageName!= null) {
-            val resourceId = context!!.resources.getIdentifier(
+            context?.let {
+                val resourceId = it.resources.getIdentifier(
                 imageName,
                 "drawable",
-                context?.packageName
-            )
-            imageView.setImageResource(resourceId)
-            imageView.setBackgroundResource(R.drawable.card_view_image_view_background)
+                it.packageName)
+                imageView.setImageResource(resourceId)
+                imageView.setBackgroundResource(R.drawable.card_view_image_view_background)
+            }
         }
         imageView.layoutParams = FrameLayout.LayoutParams(width, height, gravity)
         return imageView
@@ -153,7 +151,7 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
 }
 
 
-class MyTouchListener(var context: Context, private var cardFrameLayout: ViewGroup, var gestureListener: GestureReceiverInterface) : View.OnTouchListener {
+class MyTouchListener(private var cardFrameLayout: ViewGroup, private var gestureListener: GestureReceiverInterface) : View.OnTouchListener {
 
     private var mLastTouchX: Float = 0.0f
     private var imageViewInitialX: Float = 0.0f
@@ -166,34 +164,19 @@ class MyTouchListener(var context: Context, private var cardFrameLayout: ViewGro
         if (event!=null) {
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    // Remember where we started (for dragging)
                     gestureListener.onTouchDown()
                     mLastTouchX = event.rawX
+                    // Remember where we started (for dragging)
                     imageViewInitialX = cardFrameLayout.x
                 }
                 MotionEvent.ACTION_MOVE -> {
                     mPosX += event.rawX - mLastTouchX
                     cardFrameLayout.x = cardFrameLayout.x + (event.rawX - mLastTouchX)
                     val distance = cardFrameLayout.x - imageViewInitialX
-                    Log.i("Distance","Distance $distance")
                     when {
                         distance > imageAppearingDistance -> gestureListener.onDragLeft(distance)
                         distance < -imageAppearingDistance -> gestureListener.onDragRight(distance)
                     }
-
-                    //                    if ((event.rawX - imageViewInitialX) > slideDistance) {
-//                        gestureListener.onDragLeft()
-//                    } else if((mLastTouchX - event.rawX) > slideDistance)  {
-//                        gestureListener.onDragRight()
-//                    }
-                    // Remember this touch position for the next move event
-
-//                    if ((event.rawX - imageViewInitialX) > slideDistance) {
-//                        gestureListener.onDragLeft()
-//                    } else if((mLastTouchX - event.rawX) > slideDistance)  {
-//                        gestureListener.onDragRight()
-//                    }
-                    // Remember this touch position for the next move event
                     mLastTouchX = event.rawX
                 }
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {

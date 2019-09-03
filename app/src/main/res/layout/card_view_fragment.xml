@@ -13,21 +13,17 @@
         android:id="@+id/innerFrame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
-        android:elevation="10dp">
+        android:layout_margin="5dp"
+        android:elevation="10dp"
+        android:padding="5dp">
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="30dp"
+            android:layout_margin="30dp"
             android:background="@drawable/card_view_image_view_background"
+            android:contentDescription="@string/card_image_description"
             android:cropToPadding="false"
             android:elevation="10dp"
             android:scaleType="fitCenter"
