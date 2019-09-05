@@ -12,5 +12,7 @@
     <string name="continueCardText">Too much time is being devoted to a point or topic</string>
     <string name="infinityCardText">The PBI is too big and it needs to be divided</string>
     <string name="zeroCardText">The PBI is already done or doesn\'t require any effort</string>
-    <string name="card_image_description">card image</string>
+    <string name="cardImageDescription">card image</string>
+    <string name="showCountKey">firstShow</string>
+    <string name="firstShowText">Shake me!!!</string>
 </resources>

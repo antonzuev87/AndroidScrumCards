@@ -2,7 +2,7 @@ package com.autentia.scrumcards.cardsmodel
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import java.util.ArrayList
+import java.util.*
 
 /**
  * Helper class for providing sample content for user interfaces created by
@@ -67,6 +67,13 @@ object CardsUtil {
         } else null
     }
 
+    fun getRandomCardItem(cardList: ArrayList<CardItem>?): CardItem? {
+        val count = cardList?.size
+        return if (count!= null && count>0) {
+            val randomIndex = Random().nextInt(count-1)
+            cardList[randomIndex]
+        } else null
+    }
 
     fun getNextCardItemImageName(cardItem: CardItem?, cardList: ArrayList<CardItem>?): String? {
         val nextCardItem = getNextCardItem(cardItem,cardList)
@@ -81,6 +88,8 @@ object CardsUtil {
             getCardImageIdentifier(nextCardItem.imageName)
         } else null
     }
+
+
 
     /**
      *  Model class

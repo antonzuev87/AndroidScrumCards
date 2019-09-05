@@ -23,7 +23,7 @@
             android:layout_height="0dp"
             android:layout_margin="30dp"
             android:background="@drawable/card_view_image_view_background"
-            android:contentDescription="@string/card_image_description"
+            android:contentDescription="@string/cardImageDescription"
             android:cropToPadding="false"
             android:elevation="10dp"
             android:scaleType="fitCenter"

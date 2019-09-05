@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.card_view_fragment.*
 import android.content.Context
-import android.util.Log
+import android.hardware.Sensor
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -16,6 +16,8 @@ import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
 import android.view.animation.AnimationUtils
 import kotlin.math.abs
+import android.hardware.SensorManager
+import android.widget.Toast
 
 
 interface GestureReceiverInterface {
@@ -37,6 +39,12 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
     private var leftImageView: ImageView? = null
     private var rightImageView: ImageView? = null
 
+    // The following are used for the shake detection
+    private lateinit var mSensorManager: SensorManager
+    private lateinit var mShakeDetector: ShakeDetector
+    private var mAccelerometer: Sensor? = null
+    private val maximumShowCount = 3
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,7 +55,22 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         imageView.setOnTouchListener(MyTouchListener(innerFrame, this))
-        frameLayout
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Add the following line to register the Session Manager Listener onResume
+        mSensorManager.registerListener(
+            mShakeDetector,
+            mAccelerometer,
+            SensorManager.SENSOR_DELAY_UI
+        )
+    }
+
+    override fun onPause() {
+        // Add the following line to unregister the Sensor Manager onPause
+        mSensorManager.unregisterListener(mShakeDetector)
+        super.onPause()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -74,6 +97,37 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
                 bottomText.text = null
             }
         })
+
+        mSensorManager = context?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        //check if device has an accelerometer
+        mAccelerometer = if (mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
+            mShakeDetector = ShakeDetector()
+            mShakeDetector.setOnShakeListener(object : ShakeDetector.OnShakeListener {
+                override fun onShake(count: Int) {
+                        val nextCardItem = CardsUtil.getRandomCardItem(viewModel.itemList.value)
+                        if (nextCardItem != null) {
+                            viewModel.cardItem.postValue(nextCardItem)
+                        }
+                }
+            })
+            //show toast with info about shaking if it's new installation
+            val sharedPref = this.activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+            var showCountKey = sharedPref.getInt(getString(R.string.showCountKey), 0)
+            if (showCountKey < maximumShowCount) {
+                val toast =
+                    Toast.makeText(context, getText(R.string.firstShowText), Toast.LENGTH_SHORT)
+                toast.show()
+                //save count number
+                with(sharedPref.edit()) {
+                    putInt(getString(R.string.showCountKey), ++showCountKey)
+                    commit()
+                }
+            }
+            mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+
+        } else {
+            null
+        }
     }
 
     private fun imageViewAnimatedChange(c: Context, v: ImageView, resourceId: Int) {
