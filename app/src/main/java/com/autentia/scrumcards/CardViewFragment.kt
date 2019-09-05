@@ -31,10 +31,6 @@ interface GestureReceiverInterface {
 
 class CardViewFragment : Fragment(), GestureReceiverInterface {
 
-    companion object {
-        fun newInstance() = CardViewFragment()
-    }
-
     private lateinit var viewModel: CardViewFragmentViewModel
     private var leftImageView: ImageView? = null
     private var rightImageView: ImageView? = null
@@ -97,36 +93,44 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
                 bottomText.text = null
             }
         })
+        setupShakeDetector()
+    }
 
+    private fun setupShakeDetector() {
         mSensorManager = context?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
         //check if device has an accelerometer
         mAccelerometer = if (mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
             mShakeDetector = ShakeDetector()
             mShakeDetector.setOnShakeListener(object : ShakeDetector.OnShakeListener {
                 override fun onShake(count: Int) {
-                        val nextCardItem = CardsUtil.getRandomCardItem(viewModel.itemList.value)
-                        if (nextCardItem != null) {
-                            viewModel.cardItem.postValue(nextCardItem)
-                        }
+                    val nextCardItem = CardsUtil.getRandomCardItem(viewModel.itemList.value)
+                    if (nextCardItem != null) {
+                        viewModel.cardItem.postValue(nextCardItem)
+                    }
                 }
             })
             //show toast with info about shaking if it's new installation
-            val sharedPref = this.activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-            var showCountKey = sharedPref.getInt(getString(R.string.showCountKey), 0)
-            if (showCountKey < maximumShowCount) {
-                val toast =
-                    Toast.makeText(context, getText(R.string.firstShowText), Toast.LENGTH_SHORT)
-                toast.show()
-                //save count number
-                with(sharedPref.edit()) {
-                    putInt(getString(R.string.showCountKey), ++showCountKey)
-                    commit()
-                }
-            }
+            showShakeInfoMessage()
             mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
         } else {
             null
+        }
+    }
+
+    private fun showShakeInfoMessage() {
+        //show toast with info about shaking if it's new installation
+        val sharedPref = this.activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        var showCountKey = sharedPref.getInt(getString(R.string.showCountKey), 0)
+        if (showCountKey < maximumShowCount) {
+            val toast =
+                Toast.makeText(context, getText(R.string.firstShowText), Toast.LENGTH_SHORT)
+            toast.show()
+            //save count number
+            with(sharedPref.edit()) {
+                putInt(getString(R.string.showCountKey), ++showCountKey)
+                commit()
+            }
         }
     }
 
