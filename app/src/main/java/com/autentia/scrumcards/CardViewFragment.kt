@@ -1,5 +1,6 @@
 package com.autentia.scrumcards
 
+import android.annotation.TargetApi
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -17,6 +18,9 @@ import android.view.animation.Animation.AnimationListener
 import android.view.animation.AnimationUtils
 import kotlin.math.abs
 import android.hardware.SensorManager
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.widget.Toast
 
 
@@ -103,6 +107,7 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
             mShakeDetector = ShakeDetector()
             mShakeDetector.setOnShakeListener(object : ShakeDetector.OnShakeListener {
                 override fun onShake(count: Int) {
+                    shakePhone()
                     val nextCardItem = CardsUtil.getRandomCardItem(viewModel.itemList.value)
                     if (nextCardItem != null) {
                         viewModel.cardItem.postValue(nextCardItem)
@@ -115,6 +120,16 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
 
         } else {
             null
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private fun shakePhone() {
+        val v = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        v.run {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                this.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+            } else v.vibrate(500)
         }
     }
 
