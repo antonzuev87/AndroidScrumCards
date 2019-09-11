@@ -27,7 +27,6 @@
             android:cropToPadding="false"
             android:elevation="10dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/card_0"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

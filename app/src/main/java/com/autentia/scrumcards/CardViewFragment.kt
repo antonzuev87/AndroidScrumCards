@@ -83,7 +83,8 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
                 this.activity?.packageName
             )
             context?.run {
-                imageViewAnimatedChange(this, imageView, resourceId)
+                val animated = (imageView.drawable!=null)
+                imageViewAnimatedChange(this, imageView, resourceId, animated)
             }
             if (it.bottomText!= null) {
                 bottomText.text = getString(
@@ -124,6 +125,7 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
     }
 
     @TargetApi(Build.VERSION_CODES.O)
+    @Suppress("DEPRECATION")
     private fun shakePhone() {
         val v = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         v.run {
@@ -149,20 +151,25 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
         }
     }
 
-    private fun imageViewAnimatedChange(c: Context, v: ImageView, resourceId: Int) {
-        val animOut = AnimationUtils.loadAnimation(c, android.R.anim.fade_out)
-        animOut.duration = 200
-        val animIn = AnimationUtils.loadAnimation(c, android.R.anim.fade_in)
-        animIn.duration = 100
-        animOut.setAnimationListener(object : AnimationListener {
-            override fun onAnimationRepeat(animation: Animation?) {}
-            override fun onAnimationStart(animation: Animation?) {}
-            override fun onAnimationEnd(animation: Animation) {
-                imageView.setImageResource(resourceId)
-                v.startAnimation(animIn)
-            }
-        })
-        v.startAnimation(animOut)
+    private fun imageViewAnimatedChange(c: Context, v: ImageView, resourceId: Int, animated: Boolean) {
+        if (animated){
+            val animOut = AnimationUtils.loadAnimation(c, android.R.anim.fade_out)
+            animOut.duration = 200
+            val animIn = AnimationUtils.loadAnimation(c, android.R.anim.fade_in)
+            animIn.duration = 200
+            animOut.setAnimationListener(object : AnimationListener {
+                override fun onAnimationRepeat(animation: Animation?) {}
+                override fun onAnimationStart(animation: Animation?) {}
+                override fun onAnimationEnd(animation: Animation) {
+                    imageView.setImageResource(resourceId)
+                    v.startAnimation(animIn)
+                }
+            })
+            v.startAnimation(animOut)
+        } else {
+            imageView.setImageResource(resourceId)
+        }
+
     }
 
     override fun onTouchDown() {
