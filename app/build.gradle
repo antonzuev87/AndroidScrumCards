@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.autentia.scrumcards"
+        applicationId 'com.autentia.android.scrumcards'
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
