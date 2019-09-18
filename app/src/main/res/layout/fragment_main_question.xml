@@ -52,7 +52,6 @@
         android:fontFamily="@font/montserrat"
         android:text="@string/questionText"
         android:textAlignment="center"
-        android:textColor="@color/textColorNormal"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
