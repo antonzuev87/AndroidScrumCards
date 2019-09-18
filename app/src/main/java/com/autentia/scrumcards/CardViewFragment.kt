@@ -113,7 +113,7 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
                     mShakeDetector = ShakeDetector()
                     mShakeDetector?.setOnShakeListener(object : ShakeDetector.OnShakeListener {
                         override fun onShake(count: Int) {
-                            shakePhone()
+                            vibratePhone()
                             val nextCardItem = CardsUtil.getRandomCardItem(viewModel.itemList.value)
                             if (nextCardItem != null) {
                                 viewModel.cardItem.postValue(nextCardItem)
@@ -132,7 +132,7 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
 
     @TargetApi(Build.VERSION_CODES.O)
     @Suppress("DEPRECATION")
-    private fun shakePhone() {
+    private fun vibratePhone() {
         val v = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         v.run {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

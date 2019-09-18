@@ -98,11 +98,11 @@ class CardListRecyclerViewAdapter(
         init {
             continueButton.setOnClickListener {
                 val continueButtonItem = CardsUtil.continueButtonItem
-                mListener?.onListFragmentInteraction(continueButtonItem)
+                mListener?.onListFragmentInteraction(continueButtonItem, mValues)
             }
             restButton.setOnClickListener {
                 val restButtonItem = CardsUtil.restButtonItem
-                mListener?.onListFragmentInteraction(restButtonItem)
+                mListener?.onListFragmentInteraction(restButtonItem, mValues)
             }
         }
     }
