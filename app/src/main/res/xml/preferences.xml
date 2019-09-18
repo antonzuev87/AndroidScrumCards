@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:textAlignment="center"
+        android:title="@string/basicPreferences">
+
+        <SwitchPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="true"
+            android:key="@string/shakeGestureEnabledKey"
+            android:textAlignment="center"
+            android:title="@string/shakeGestureEnabled" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

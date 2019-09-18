@@ -21,6 +21,7 @@ import android.hardware.SensorManager
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.preference.PreferenceManager
 import android.widget.Toast
 
 
@@ -40,8 +41,8 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
     private var rightImageView: ImageView? = null
 
     // The following are used for the shake detection
-    private lateinit var mSensorManager: SensorManager
-    private lateinit var mShakeDetector: ShakeDetector
+    private var mSensorManager: SensorManager? = null
+    private var mShakeDetector: ShakeDetector? = null
     private var mAccelerometer: Sensor? = null
     private val maximumShowCount = 3
 
@@ -60,7 +61,7 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
     override fun onResume() {
         super.onResume()
         // Add the following line to register the Session Manager Listener onResume
-        mSensorManager.registerListener(
+        mSensorManager?.registerListener(
             mShakeDetector,
             mAccelerometer,
             SensorManager.SENSOR_DELAY_UI
@@ -69,7 +70,7 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
 
     override fun onPause() {
         // Add the following line to unregister the Sensor Manager onPause
-        mSensorManager.unregisterListener(mShakeDetector)
+        mSensorManager?.unregisterListener(mShakeDetector)
         super.onPause()
     }
 
@@ -102,25 +103,30 @@ class CardViewFragment : Fragment(), GestureReceiverInterface {
     }
 
     private fun setupShakeDetector() {
-        mSensorManager = context?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        //check if device has an accelerometer
-        mAccelerometer = if (mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
-            mShakeDetector = ShakeDetector()
-            mShakeDetector.setOnShakeListener(object : ShakeDetector.OnShakeListener {
-                override fun onShake(count: Int) {
-                    shakePhone()
-                    val nextCardItem = CardsUtil.getRandomCardItem(viewModel.itemList.value)
-                    if (nextCardItem != null) {
-                        viewModel.cardItem.postValue(nextCardItem)
-                    }
-                }
-            })
-            //show toast with info about shaking if it's new installation
-            showShakeInfoMessage()
-            mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        var prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        var shakeGestureEnabled = prefs.getBoolean(getString(R.string.shakeGestureEnabledKey),true)
+        if (shakeGestureEnabled) {
+            mSensorManager = context?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+            //check if device has an accelerometer
+            mAccelerometer =
+                if (mSensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
+                    mShakeDetector = ShakeDetector()
+                    mShakeDetector?.setOnShakeListener(object : ShakeDetector.OnShakeListener {
+                        override fun onShake(count: Int) {
+                            shakePhone()
+                            val nextCardItem = CardsUtil.getRandomCardItem(viewModel.itemList.value)
+                            if (nextCardItem != null) {
+                                viewModel.cardItem.postValue(nextCardItem)
+                            }
+                        }
+                    })
+                    //show toast with info about shaking if it's new installation
+                    showShakeInfoMessage()
+                    mSensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
-        } else {
-            null
+                } else {
+                    null
+                }
         }
     }
 

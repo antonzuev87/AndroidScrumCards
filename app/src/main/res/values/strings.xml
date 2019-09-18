@@ -13,6 +13,12 @@
     <string name="infinityCardText">The PBI is too big and it needs to be divided</string>
     <string name="zeroCardText">The PBI is already done or doesn\'t require any effort</string>
     <string name="cardImageDescription">card image</string>
-    <string name="showCountKey">firstShow</string>
+    <string name="showCountKey" translatable="false">firstShow</string>
     <string name="firstShowText">Shake me!!!</string>
+    <string name="shakeGestureEnabled">Enable shake gesture</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="settings">Settings</string>
+    <string name="basicPreferences">Basic preferences</string>
+    <string name="shakeGestureEnabledKey" translatable="false">shake_gesture_enabled</string>
 </resources>

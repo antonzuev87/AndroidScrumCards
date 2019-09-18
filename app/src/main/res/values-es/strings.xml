@@ -11,7 +11,9 @@
     <string name="continueCardText">Se está dedicando demasiado tiempo a un punto o tema</string>
     <string name="infinityCardText">El PBI es demasiado grande y hay que dividirlo</string>
     <string name="zeroCardText">El PBI ya está hecho o no require ningún esfuerzo</string>
-    <string name="showCountKey">firstShow</string>
     <string name="firstShowText">Agítame!!!</string>
     <string name="cardImageDescription">la imagen de carta</string>
+    <string name="shakeGestureEnabled">Habilitar el gesto shake</string>
+    <string name="settings">Ajustes</string>
+    <string name="basicPreferences">Preferencias basicas</string>
 </resources>

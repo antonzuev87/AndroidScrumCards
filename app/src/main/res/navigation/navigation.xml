@@ -34,4 +34,14 @@
             android:name="cards"
             app:argType="com.autentia.scrumcards.cardsmodel.CardsUtil$CardItem[]" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.autentia.scrumcards.SettingsFragment"
+        android:label="SettingsFragment" />
+    <action
+        android:id="@+id/open_settings_fragment"
+        app:destination="@+id/settingsFragment"
+        app:enterAnim="@anim/right_to_left_animation"
+        app:popEnterAnim="@anim/out_left_to_right_animation"
+        app:popUpToInclusive="false" />
 </navigation>
